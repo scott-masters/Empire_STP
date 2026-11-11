@@ -1,0 +1,373 @@
+{% extends "jobs/main.html" %}
+
+{% block content %} 
+  <article class = "post featured">
+    <header class = "major">
+      <section class = "post">
+        <header class = "major">
+          <h1> Analista Quantitativo(a) </h1>
+        </header>
+        <p> 
+          Agradecemos seu interesse em trabalhar conosco. Por favor, preencha o 
+          formulário abaixo. Se precisar de ajuda, envie uma mensagem para
+          +239 993 2449.
+        </p>
+
+        <div class = "box">
+          <p>
+            <strong> Leia antes de se candidatar: </strong> 
+            Não aceitaremos um currículo que apresente apenas fatos e datas, sem 
+            qualquer explicação. Independentemente de você enviar um arquivo ou 
+            preencher o formulário, precisamos entender o que você realmente 
+            realizou em cada experiência profissional ou curso, e o que aprendeu 
+            com isso. Também não aceitaremos currículos elaborados por IA.
+          </p>
+        </div>
+
+        <form method = "post" enctype = "multipart/form-data" onreset = "handle_reset();">
+          <div class = "row gtr-uniform">
+
+            <!-- PERSONAL DETAILS -->
+            <div class = "col-6 col-12-small">
+              <label> NOME COMPLETO: </label>
+              <input 
+                type = "text" name = "name" id = "name" value = "" 
+                placeholder = "James Lancaster" required = true/>
+            </div>
+
+            <div class = "col-6 col-12-small">
+              <label> ANO DE NASCIMENTO: </label>
+              <input 
+                type = "text" name = "year_of_birth" id = "year_of_birth" value = "" 
+                placeholder = "1997" required = true/>
+            </div>
+
+            <div class = "col-6 col-12-small">
+              <label> NÚMERO DE TELEFONE: </label>
+              <input 
+                type = "text" name = "phone" id = "phone" value = "" 
+                placeholder = "+239 123 4567"/>
+            </div>
+
+            <div class = "col-6 col-12-small">
+              <label> EMAIL: </label>
+                <input 
+                  type = "email" name = "email" id = "email" value = "" 
+                  placeholder = "exemplo@protonmail.com"/>
+            </div>
+
+            <!-- CHOICE: CV OR MANUAL -->
+            <div class = "col-12">
+              <h3> Sua Experiência </h3>
+              <p> Escolha uma destas opções </p>
+            </div>
+            <div class = "col-6 col-12-small">
+              <input 
+                type = "radio" id = "mode_cv" name = "mode" value = "cv" 
+                onchange = "apply_mode();" required = true>
+              <label for = "mode_cv"> Envie um currículo (PDF) </label>
+            </div>
+            <div class = "col-6 col-12-small">
+              <input 
+                type = "radio" id = "mode_manual" name = "mode" value = "manual" 
+                onchange = "apply_mode();" required = true>
+              <label for = "mode_manual"> Preencha minha experiência aqui </label>
+            </div>
+
+            <!-- OPTION 1: CV UPLOAD -->
+            <div id = "cv_section" class = "col-12" hidden>
+              <label> ENVIE SEU CURRÌCULO (APENAS EM PDF): </label>
+              <input 
+                type = "file" name = "cv" id = "cv" accept = ".pdf,application/pdf" 
+                required = true/>
+            </div>
+
+            <!-- OPTION 2: MANUAL ENTRY -->
+            <div id = "manual_section" class = "col-12" hidden>
+              <div class = "row gtr-uniform">
+
+                <div class = "col-12">
+                  <h3> Experiência profissional</h3>
+                  <label> (Inclua todos os empregos que você teve) </label>
+                  <div id = "work_list"></div>
+                  <ul class = "actions">
+                    <li>
+                      <a href = "#" class = "button small" onclick = "add_entry('work'); return false;">
+                        + Adicionar experiência profissional
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class = "col-12">
+                  <h3> Formação </h3>
+                  <div id = "edu_list"></div>
+                  <ul class = "actions">
+                    <li>
+                      <a href = "#" class = "button small" onclick = "add_entry('edu'); return false;">
+                        + Adicionar formação
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- GITHUB PROJECTS -->
+            <div class = "col-12">
+              <h3> Projetos de programação </h3>
+              <p> 
+                Para nos ajudar a entender melhor sua experiência com 
+                programação, por favor, envie parte do código que você escreveu 
+                para o GitHub e inclua o link aqui.
+              </p>
+              <div id = "github_list"></div>
+              <ul class = "actions">
+                <li>
+                  <a href = "#" class = "button small" onclick = "add_github(); return false;">
+                    + Adicionar um Link
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div class = "col-12">
+              <ul class = "actions">
+                <li><input type = "submit" value = "Submit Application" class = "primary" /></li>
+                <li><input type = "reset" value = "Reset" /></li>
+              </ul>
+            </div>
+          </div>
+        </form>
+      </section>
+    </header>
+  </article>
+
+  <!-- Blank blueprints for the "Add" buttons. JavaScript copies these into
+       the form above, and the copies are what gets submitted. -->
+  <template id = "work_template">
+    <div class = "box entry">
+      <div class = "row gtr-uniform">
+        <div class = "col-12">
+          <label class = "entry_title"> EXPERIÊNCIA </label>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> ANO DE INÍCIO: </label>
+          <select name = "work_start[]" class = "year_start" required = true></select>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> ANO DE CONCLUSÃO: </label>
+          <select name = "work_end[]" class = "year_end" required = true></select>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> CARGO: </label>
+          <input 
+            type = "text" name = "work_title[]" value = "" 
+            placeholder = "Mãe e esposa" required = true/>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> EMPREGADOR (EMPRESA OU PESSOA): </label>
+          <input 
+            type = "text" name = "work_employer[]" value = "" 
+            placeholder = "Trabalhadores por conta própria" required = true/>
+        </div>
+        <div class = "col-12">
+          <label> DESCREVA SUA EXPERIÊNCIA: </label>
+          <textarea 
+            name = "work_description[]" rows = "4" 
+            placeholder = "O que você fazia neste trabalho?"></textarea>
+        </div>
+        <div class = "col-12">
+          <a href = "#" class = "button small" onclick = "remove_entry(this); return false;">Remover</a>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id = "edu_template">
+    <div class = "box entry">
+      <div class = "row gtr-uniform">
+        <div class = "col-12">
+          <label class = "entry_title"> EDUCAÇÃO </label>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> ANO DE INÍCIO: </label>
+          <select name = "edu_start[]" class = "year_start" required = true></select>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> ANO DE CONCLUSÃO (OU PREVISTO): </label>
+          <select name = "edu_end[]" class = "year_end" required = true></select>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> NOME DO CURSO: </label>
+          <input 
+            type = "text" name = "edu_title[]" value = "" 
+            placeholder = "Economia" required = true/>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> ESCOLA / UNIVERSIDADE: </label>
+          <input 
+            type = "text" name = "edu_institution[]" value = "" 
+            placeholder = "Universidade de STP" required = true/>
+        </div>
+        <div class = "col-12">
+          <label> DESCREVA SEUS ESTUDOS: </label>
+          <textarea 
+            name = "edu_description[]" rows = "4" 
+            placeholder = "O que você estudou? Alguma conquista?"></textarea>
+        </div>
+        <div class = "col-12">
+          <a href = "#" class = "button small" onclick = "remove_entry(this); return false;">Remover</a>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id = "github_template">
+    <div class = "github_entry" style = "margin-bottom: 1em;">
+      <div class = "row gtr-uniform">
+        <div class = "col-6 col-12-small">
+          <input 
+            type = "text" name = "github_links[]" value = "" 
+            placeholder = "https://github.com/username/project" required = false/>
+        </div>
+        <div class = "col-4 col-12-small">
+          <select name = "github_ai[]" required = false>
+            <option value = "" selected disabled>Papel da IA ​​neste projeto</option>
+            <option value = "co_written">Coescrito com IA</option>
+            <option value = "specific_parts">A IA foi utilizada em partes específicas</option>
+            <option value = "not_used">A IA não foi utilizada</option>
+          </select>
+        </div>
+        <div class = "col-2 col-12-small github_remove">
+          <a href = "#" class = "button small" onclick = "remove_github(this); return false;">Remover</a>
+        </div>
+      </div>
+    </div>
+  </template>
+{% endblock %}
+
+{% block scripts %} 
+  <script>
+    const FIRST_YEAR = 1960;
+    const THIS_YEAR = new Date().getFullYear();
+    const LAST_STUDY_YEAR = 2030;
+
+    const cv_section = document.getElementById("cv_section");
+    const manual_section = document.getElementById("manual_section");
+    const github_list = document.getElementById("github_list");
+    const github_template = document.getElementById("github_template");
+
+    const config = {
+      work: {
+        list: document.getElementById("work_list"),
+        template: document.getElementById("work_template"),
+        title: "WORK EXPERIENCE",
+        last_year: THIS_YEAR,
+        ongoing_label: "Still working here"
+      },
+      edu: {
+        list: document.getElementById("edu_list"),
+        template: document.getElementById("edu_template"),
+        title: "EDUCATION",
+        last_year: LAST_STUDY_YEAR,
+        ongoing_label: null
+      }
+    };
+
+    // Show only the chosen section. Fields in a hidden section are disabled,
+    // so they are neither validated nor sent to the server.
+    function set_section(section, active) {
+      section.hidden = !active;
+      section.querySelectorAll("input, select, textarea").forEach(function (field) {
+        field.disabled = !active;
+      });
+    }
+
+    function apply_mode() {
+      const chosen = document.querySelector("input[name='mode']:checked");
+      const mode = chosen ? chosen.value : null;
+      set_section(cv_section, mode === "cv");
+      set_section(manual_section, mode === "manual");
+    }
+
+    function fill_years(select, last_year, ongoing_label, with_ongoing) {
+      select.appendChild(new Option("Select year", "", true, true));
+      select.options[0].disabled = true;
+
+      if (with_ongoing) {
+        select.appendChild(new Option(ongoing_label, "present"));
+      }
+      for (let year = last_year; year >= FIRST_YEAR; year--) {
+        select.appendChild(new Option(year, year));
+      }
+    }
+
+    function number_entries(type) {
+      const entries = config[type].list.querySelectorAll(".entry");
+      entries.forEach(function (entry, index) {
+        entry.querySelector(".entry_title").textContent = 
+          config[type].title + " " + (index + 1) + ":";
+      });
+    }
+
+    function add_entry(type) {
+      const c = config[type];
+      const clone = c.template.content.cloneNode(true);
+
+      fill_years(clone.querySelector(".year_start"), c.last_year, null, false);
+      fill_years(
+        clone.querySelector(".year_end"), c.last_year, c.ongoing_label, 
+        c.ongoing_label !== null);
+
+      c.list.appendChild(clone);
+      number_entries(type);
+      apply_mode();
+    }
+
+    function remove_entry(button) {
+      const entry = button.closest(".entry");
+      const type = entry.parentElement.id === "work_list" ? "work" : "edu";
+      entry.remove();
+      number_entries(type);
+    }
+
+    // GitHub links: always keep at least one box
+    function update_github_remove_buttons() {
+      const entries = github_list.querySelectorAll(".github_entry");
+      entries.forEach(function (entry) {
+        entry.querySelector(".github_remove").hidden = entries.length === 1;
+      });
+    }
+
+    function add_github() {
+      github_list.appendChild(github_template.content.cloneNode(true));
+      update_github_remove_buttons();
+    }
+
+    function remove_github(button) {
+      button.closest(".github_entry").remove();
+      update_github_remove_buttons();
+    }
+
+    function handle_reset() {
+      // Wait for the browser to clear the fields, then rebuild the page state
+      setTimeout(function () {
+        config.work.list.innerHTML = "";
+        config.edu.list.innerHTML = "";
+        github_list.innerHTML = "";
+        add_entry("work");
+        add_entry("edu");
+        add_github();
+        apply_mode();
+      }, 0);
+    }
+
+    // Initial state
+    add_entry("work");
+    add_entry("edu");
+    add_github();
+    apply_mode();
+  </script>
+{% endblock %}

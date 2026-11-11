@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+  <li><a href = "/"> Casa </a></li>
+  <li class = "dropdown active">
+    <span class = "opener"> Vagas de Trabalho </span>
+    <ul class = "submenu" style = "padding-left: 0px">
+      <li><a style = "padding-left: 20px; padding-right: 20px;" href = "/jobs/AQ"> ANALISTA </a></li>
+      <li><a style = "padding-left: 20px; padding-right: 20px;" href = "/jobs/CE"> CUIDADOR </a></li>
+      <li><a style = "padding-left: 20px; padding-right: 20px;" href = "/jobs/IN"> INVENTOR </a></li>
+      <li><a style = "padding-left: 20px; padding-right: 20px;" href = "/jobs/CT"> CONTABALISTA </a></li>
+      <li><a style = "padding-left: 20px; padding-right: 20px;" href = "/jobs/LB"> LOBISTA </a></li>
+    </ul>
+  </li>
+  <li><a href = "/about_us"> Sobre Nós </a></li>
+{% endblock %}
+
+{% block content %} 
+  <article class = "post featured">
+    <header class = "major">
+      <section class = "post">
+        <header class = "major">
+          <h1> RECEBIDO </h1>
+        </header>
+        <p> Obrigado pela sua candidatura. Entraremos em contato em breve. </p>
+      </section>
+    </header>
+  </article>
+{% endblock %}

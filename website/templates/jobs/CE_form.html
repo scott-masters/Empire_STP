@@ -1,0 +1,250 @@
+{% extends "jobs/main.html" %}
+
+{% block content %} 
+  <article class = "post featured">
+    <header class = "major">
+      <section class = "post">
+        <header class = "major">
+          <h1> Cuidador(a) do Escritório </h1>
+        </header>
+        <p> 
+          Agradecemos seu interesse em trabalhar conosco. Por favor, preencha o 
+          formulário abaixo. Se precisar de ajuda, envie uma mensagem para
+          +239 993 2449.
+        </p>
+        <form method = "post">
+          <div class = "row gtr-uniform">
+
+            <!-- PERSONAL DETAILS -->
+            <div class = "col-6 col-12-small">
+              <label> NOME COMPLETO: </label>
+              <input 
+                type = "text" name = "name" id = "name" value = "" 
+                placeholder = "James Lancaster" required = true/>
+            </div>
+
+            <div class = "col-6 col-12-small">
+              <label> ANO DE NASCIMENTO: </label>
+              <input 
+                type = "text" name = "year_of_birth" id = "year_of_birth" value = "" 
+                placeholder = "1997" required = true/>
+            </div>
+
+            <div class = "col-6 col-12-small">
+              <label> NÚMERO DE TELEFONE: </label>
+              <input 
+                type = "text" name = "phone" id = "phone" value = "" 
+                placeholder = "+239 123 4567"/>
+            </div>
+
+            <div class = "col-6 col-12-small">
+              <label> EMAIL: </label>
+                <input 
+                  type = "email" name = "email" id = "email" value = "" 
+                  placeholder = "exemplo@protonmail.com"/>
+            </div>
+
+            <!-- WORK EXPERIENCE -->
+            <div class = "col-12">
+              <h3> Experiência profissional</h3>
+              <label> (incluindo experiência no ambiente doméstico) </label>
+              <div id = "work_list"></div>
+              <ul class = "actions">
+                <li>
+                  <a href = "#" class = "button small" onclick = "add_entry('work'); return false;">
+                    + Adicionar experiência profissional
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- EDUCATION -->
+            <div class = "col-12">
+              <h3> Formação </h3>
+              <div id = "edu_list"></div>
+              <ul class = "actions">
+                <li>
+                  <a href = "#" class = "button small" onclick = "add_entry('edu'); return false;">
+                    + Adicionar formação
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <!-- AMBITION -->
+            <div class = "col-12">
+              <h3> Ambição </h3>
+              <label> Você é ambicioso? Explique por quê: </label>
+              <textarea 
+                name = "ambition" id = "ambition" rows = "7" 
+                placeholder = "Conte-me sobre seus planos para o futuro." 
+                required = true></textarea>
+            </div>
+
+            <div class = "col-12">
+              <ul class = "actions">
+                <li><input type = "submit" value = "Submit Application" class = "primary" /></li>
+                <li><input type = "reset" value = "Reset" onclick = "reset_entries();" /></li>
+              </ul>
+            </div>
+          </div>
+        </form>
+      </section>
+    </header>
+  </article>
+
+  <!-- Templates for the repeatable boxes (not submitted with the form) -->
+  <template id = "work_template">
+    <div class = "box entry">
+      <div class = "row gtr-uniform">
+        <div class = "col-12">
+          <label class = "entry_title"> EXPERIÊNCIA </label>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> ANO DE INÍCIO: </label>
+          <select name = "work_start[]" class = "year_start" required = true></select>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> ANO DE CONCLUSÃO: </label>
+          <select name = "work_end[]" class = "year_end" required = true></select>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> CARGO: </label>
+          <input 
+            type = "text" name = "work_title[]" value = "" 
+            placeholder = "Mãe e esposa" required = true/>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> EMPREGADOR (EMPRESA OU PESSOA): </label>
+          <input 
+            type = "text" name = "work_employer[]" value = "" 
+            placeholder = "Trabalhadores por conta própria" required = true/>
+        </div>
+        <div class = "col-12">
+          <label> DESCREVA SUA EXPERIÊNCIA: </label>
+          <textarea 
+            name = "work_description[]" rows = "4" 
+            placeholder = "O que você fazia neste trabalho?"></textarea>
+        </div>
+        <div class = "col-12">
+          <a href = "#" class = "button small" onclick = "remove_entry(this); return false;">Remover</a>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id = "edu_template">
+    <div class = "box entry">
+      <div class = "row gtr-uniform">
+        <div class = "col-12">
+          <label class = "entry_title"> EDUCAÇÃO </label>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> ANO DE INÍCIO: </label>
+          <select name = "edu_start[]" class = "year_start" required = true></select>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> ANO DE CONCLUSÃO (OU PREVISTO): </label>
+          <select name = "edu_end[]" class = "year_end" required = true></select>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> NOME DO CURSO: </label>
+          <input 
+            type = "text" name = "edu_title[]" value = "" 
+            placeholder = "Economia" required = true/>
+        </div>
+        <div class = "col-6 col-12-small">
+          <label> ESCOLA / UNIVERSIDADE: </label>
+          <input 
+            type = "text" name = "edu_institution[]" value = "" 
+            placeholder = "Universidade de STP" required = true/>
+        </div>
+        <div class = "col-12">
+          <label> DESCREVA SEUS ESTUDOS: </label>
+          <textarea 
+            name = "edu_description[]" rows = "4" 
+            placeholder = "O que você estudou? Alguma conquista?"></textarea>
+        </div>
+        <div class = "col-12">
+          <a href = "#" class = "button small" onclick = "remove_entry(this); return false;">Remover</a>
+        </div>
+      </div>
+    </div>
+  </template>
+{% endblock %}
+
+{% block scripts %} 
+  <script>
+    const FIRST_YEAR = 1960;
+    const THIS_YEAR = new Date().getFullYear();
+    const LAST_STUDY_YEAR = 2030;
+
+    const config = {
+      work: {
+        list: document.getElementById("work_list"),
+        template: document.getElementById("work_template"),
+        title: "EXPERIÊNCIA DE TRABALHO",
+        last_year: THIS_YEAR,
+        ongoing_label: "Ainda trabalhando aqui"
+      },
+      edu: {
+        list: document.getElementById("edu_list"),
+        template: document.getElementById("edu_template"),
+        title: "EDUCAÇÃO",
+        last_year: LAST_STUDY_YEAR,
+        ongoing_label: null
+      }
+    };
+
+    function fill_years(select, last_year, ongoing_label, with_ongoing) {
+      select.appendChild(new Option("Select year", "", true, true));
+      select.options[0].disabled = true;
+
+      if (with_ongoing) {
+        select.appendChild(new Option(ongoing_label, "present"));
+      }
+      for (let year = last_year; year >= FIRST_YEAR; year--) {
+        select.appendChild(new Option(year, year));
+      }
+    }
+
+    function number_entries(type) {
+      const entries = config[type].list.querySelectorAll(".entry");
+      entries.forEach(function (entry, index) {
+        entry.querySelector(".entry_title").textContent = 
+          config[type].title + " " + (index + 1) + ":";
+      });
+    }
+
+    function add_entry(type) {
+      const c = config[type];
+      const clone = c.template.content.cloneNode(true);
+
+      fill_years(clone.querySelector(".year_start"), c.last_year, null, false);
+      fill_years(
+        clone.querySelector(".year_end"), c.last_year, c.ongoing_label, 
+        c.ongoing_label !== null);
+
+      c.list.appendChild(clone);
+      number_entries(type);
+    }
+
+    function remove_entry(button) {
+      const entry = button.closest(".entry");
+      const type = entry.parentElement.id === "work_list" ? "work" : "edu";
+      entry.remove();
+      number_entries(type);
+    }
+
+    function reset_entries() {
+      config.work.list.innerHTML = "";
+      config.edu.list.innerHTML = "";
+      add_entry("work");
+      add_entry("edu");
+    }
+
+    // Start with one box of each
+    add_entry("work");
+    add_entry("edu");
+  </script>
+{% endblock %}
