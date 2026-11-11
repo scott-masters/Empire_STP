@@ -22,11 +22,18 @@ def AQ_form():
         mode = data.get("mode")
         filename = name + " " + phone
         filename = filename.replace(" ", "_")
-        if mode == "cv":
-            cv_file = fl.request.files.get("cv")
-            cv_file.save(f"applications/AQ/{filename}.pdf")
-        with open(f"applications/AQ/{filename}.pkl", "wb") as file:
-            pk.dump(data, file)
+        try:
+            if mode == "cv":
+                cv_file = fl.request.files.get("cv")
+                cv_file.save(f"applications/AQ/{filename}.pdf")
+            with open(f"applications/AQ/{filename}.pkl", "wb") as file:
+                pk.dump(data, file)
+        except:
+            if mode == "cv":
+                cv_file = fl.request.files.get("cv")
+                cv_file.save(f"/home/PortalSTP/Empire_STP/applications/AQ/{filename}.pdf")
+            with open(f"/home/PortalSTP/Empire_STP/applications/AQ/{filename}.pkl", "wb") as file:
+                pk.dump(data, file)
         return fl.render_template(f"jobs/submitted.html")
     return fl.render_template(f"jobs/AQ_form.html")
 
@@ -42,8 +49,12 @@ def CE_form():
         phone = data.get("phone")
         filename = name + " " + phone
         filename = filename.replace(" ", "_")
-        with open(f"applications/CE/{filename}.pkl", "wb") as file:
-            pk.dump(data, file)
+        try:
+            with open(f"applications/CE/{filename}.pkl", "wb") as file:
+                pk.dump(data, file)
+        except:
+            with open(f"/home/PortalSTP/Empire_STP/applications/CE/{filename}.pkl", "wb") as file:
+                pk.dump(data, file)
         return fl.render_template(f"jobs/submitted.html")
     return fl.render_template(f"jobs/CE_form.html")
 
@@ -59,8 +70,12 @@ def IN_form():
         phone = data.get("phone")
         filename = name + " " + phone
         filename = filename.replace(" ", "_")
-        with open(f"applications/IN/{filename}.pkl", "wb") as file:
-            pk.dump(data, file)
+        try:
+            with open(f"applications/IN/{filename}.pkl", "wb") as file:
+                pk.dump(data, file)
+        except:
+            with open(f"/home/PortalSTP/Empire_STP/applications/IN/{filename}.pkl", "wb") as file:
+                pk.dump(data, file)
         return fl.render_template(f"jobs/submitted.html")
     return fl.render_template(f"jobs/IN_form.html")
 
